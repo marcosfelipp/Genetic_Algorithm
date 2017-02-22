@@ -11,6 +11,10 @@ def crossover():
     Troca de genes entre as partes de um indivíduo
     :return:
     """
+def adaptacao():
+    """
+    TESTE
+    """
 
 def selecao():
     """
