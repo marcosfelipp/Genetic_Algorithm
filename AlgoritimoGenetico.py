@@ -4,14 +4,38 @@ import math
 population_size = 100
 numero_genes = 44
 geracoes = 20
-individuos = []
+populacao = []
 
+def crossover():
+    """
+    Troca de genes entre as partes de um indivíduo
+    :return:
+    """
+
+def selecao():
+    """
+    Selecionar indivíduos aleatóriamente, proporcionando maiores chances de repordução aos mais aptos.
+    :return:
+    """
+    soma_aptidao = 0
+    for i in range(0,len(populacao)):
+        soma_aptidao+= populacao[i][1]
+
+    aleatorio = random.randrange(0,int(soma_aptidao))
+    soma_para_selecao = 0
+    individuo_selecionado = 0
+
+    while soma_para_selecao <= aleatorio and individuo_selecionado < len(populacao)-1:
+        soma_para_selecao+= populacao[individuo_selecionado][1]
+        individuo_selecionado+=1
+    print("SELECIONADO: ",individuo_selecionado,populacao[individuo_selecionado][1])
+    return individuo_selecionado
 
 def melhor_na_populacao():
     maior = 0
-    for i in range(0,population_size):
-        if(individuos[i][1] > maior):
-            maior = individuos[i][1]
+    for i in range(0,len(populacao)):
+        if(populacao[i][1] > maior):
+            maior = populacao[i][1]
     print(maior)
 
 def mutacao(individuo):
@@ -26,10 +50,10 @@ def mutacao(individuo):
         teste = random.randrange(0,100)
         if teste < 5 :
             #troca bit(gene)
-            if individuos[individuo][0][gene] == 1:
-                individuos[individuo][0][gene] = 0
+            if populacao[individuo][0][gene] == 1:
+                populacao[individuo][0][gene] = 0
             else :
-                individuos[individuo][0][gene] ='1'
+                populacao[individuo][0][gene] = '1'
 
 def f_seis(x,y):
     """
@@ -50,20 +74,20 @@ def aptidao():
     função f6()
     :return:
     """
-    for individuo in range(0, len(individuos)):
+    for individuo in range(0, len(populacao)):
         x = 0
         y = 0
         #Converssão para base 10:
         for gene in range(((numero_genes // 2) - 1), 0, -1):
-            if (individuos[individuo][0][gene]) == 1:
+            if (populacao[individuo][0][gene]) == 1:
                 x += 2 ** gene
-            if (individuos[individuo][0][gene+(numero_genes//2)]) == 1:
+            if (populacao[individuo][0][gene+(numero_genes//2)]) == 1:
                 y += 2**gene
         #Parametrização:
         x = ((x * 200) / (pow(2, 22) - 1)) - 100
         y = ((y * 200) / (pow(2, 22) - 1)) - 100
         #Aplicar função no indivíduo para calculo da aptidão:
-        individuos[individuo][1] = f_seis(x,y)
+        populacao[individuo][1] = f_seis(x, y)
         #print(x, y,individuos[individuo][1])
 
 def inicializaPopulacao():
@@ -77,7 +101,7 @@ def inicializaPopulacao():
         for gene in range(0, numero_genes):
             stringIndividuo.append(random.randrange(0, 2))
         listaIndividuo = [stringIndividuo, 0]
-        individuos.append(listaIndividuo)
+        populacao.append(listaIndividuo)
 
 inicializaPopulacao()
 for i in range(0, geracoes):
@@ -85,3 +109,4 @@ for i in range(0, geracoes):
     for individuo in range(0,population_size):
         mutacao(individuo)
     melhor_na_populacao()
+selecao()
