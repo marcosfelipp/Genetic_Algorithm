@@ -6,15 +6,19 @@ numero_genes = 44
 geracoes = 20
 populacao = []
 
-def crossover():
+def crossover(indiv1, indv2):
     """
     Troca de genes entre as partes de um indivíduo
+    Taxa de crossover: 70%
     :return:
     """
-def adaptacao():
-    """
-    TESTE
-    """
+    genes_filho = []
+    for i in range(0,numero_genes-14):
+        genes_filho.append(populacao[indiv1][0][i])
+    for j in range(numero_genes-14,numero_genes):
+        genes_filho.append( populacao[indiv2][0][i])
+    filho = [genes_filho,0]
+    populacao.append(filho)
 
 def selecao():
     """
@@ -32,7 +36,7 @@ def selecao():
     while soma_para_selecao <= aleatorio and individuo_selecionado < len(populacao)-1:
         soma_para_selecao+= populacao[individuo_selecionado][1]
         individuo_selecionado+=1
-    print("SELECIONADO: ",individuo_selecionado,populacao[individuo_selecionado][1])
+    #print("SELECIONADO: ",individuo_selecionado-1,populacao[individuo_selecionado-1][1])
     return individuo_selecionado
 
 def melhor_na_populacao():
@@ -108,9 +112,13 @@ def inicializaPopulacao():
         populacao.append(listaIndividuo)
 
 inicializaPopulacao()
+
 for i in range(0, geracoes):
     aptidao()
-    for individuo in range(0,population_size):
-        mutacao(individuo)
     melhor_na_populacao()
-selecao()
+    for individuo in range(0,len(populacao)):
+        mutacao(individuo)
+    for j in range(0, geracoes):
+        indiv1 = selecao()
+        indiv2 = selecao()
+        crossover(indiv1,indiv2)
